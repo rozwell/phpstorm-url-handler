@@ -7,11 +7,14 @@
 # @license GPL
 # @author Stefan Auditor <stefan.auditor@erdfisch.de>
 
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+
 arg=${1}
 pattern=".*file(:\/\/|\=)(.*)&line=(.*)"
 
 # Get the file path.
 file=$(echo "${arg}" | sed -r "s/${pattern}/\2/")
+file=$(urldecode "$file")
 
 # Get the line number.
 line=$(echo "${arg}" | sed -r "s/${pattern}/\3/")
